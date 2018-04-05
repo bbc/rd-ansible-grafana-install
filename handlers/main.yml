@@ -1,0 +1,9 @@
+---
+# name: rd-ansible-grafana-install/handlers
+# description: All our handlers for rd-ansible-grafana-install go in here
+
+- name: Restart Grafana
+  service:
+    name: "grafana-server"
+    state: restarted
+  listen: restart_grafana

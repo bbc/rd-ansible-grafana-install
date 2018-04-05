@@ -1,0 +1,17 @@
+---
+# module: rd-ansible-grafana-install/tasks/configure
+# description: Configure rd-ansible-grafana-install
+
+- name: Add datasource
+  uri:
+    url: http://127.0.0.1:3000/api/datasources
+    method: POST
+    user: admin
+    password: admin
+    force_basic_auth: yes
+    body: { "name":"InfluxDB","type":"influxdb","url":"{{ influx_db_endpoints[0] }}","password":"{{ influx_db_password }}","user":"{{ influx_db_user }}","database":"telegraf","basicAuth":false,"isDefault":true,"access":"proxy" }
+    body_format: json
+    status_code: [ 200, 409 ]
+  register: datasource_output
+
+- debug: var=datasource_output

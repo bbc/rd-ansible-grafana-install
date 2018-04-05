@@ -1,0 +1,9 @@
+---
+# module: rd-ansible-grafana-install/tasks
+# description: Install rd-ansible-grafana-install onto CentOS 7 or Ubuntu 16
+
+- name: Install rd-ansible-grafana-install
+  include_tasks: install.yml
+
+- name: Configure rd-ansible-grafana-install
+  include_tasks: configure.yml

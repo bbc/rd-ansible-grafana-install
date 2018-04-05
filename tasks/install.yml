@@ -1,0 +1,32 @@
+---
+# module: rd-ansible-grafana-install/tasks/install
+# description: Install our required packages for rd-ansible-grafana-install
+
+- name: Add grafana gpg key
+  apt_key:
+    url: https://packagecloud.io/gpg.key
+    state: present
+
+- name: Add grafana repo
+  apt_repository:
+    repo: 'deb https://packagecloud.io/grafana/stable/debian/ jessie main'
+    state: present
+  register: repo_added
+
+- name: Update apt-cache
+  command: "apt-get update"
+  args:
+    warn: no
+  when: repo_added.changed
+
+- name: Install all required packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+
+- name: Make sure service is running and starts on boot
+  service:
+    name: "grafana-server"
+    state: started
+    enabled: true

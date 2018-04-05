@@ -1,0 +1,21 @@
+# Test our Ansible role
+
+# Get current role name, and append branch name and build number if set
+current_role = File.basename(File.expand_path("..", Dir.pwd))
+if ENV['BRANCH_NAME'] && ENV['BUILD_NUMBER']
+  current_role << "-#{ENV['BRANCH_NAME']}-#{ENV['BUILD_NUMBER']}"
+end
+
+Vagrant.configure("2") do |config|
+  # Ubuntu Xenial 16.04
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.define current_role
+  # CentOS 7
+  #config.vm.box = "centos/7"
+  # Trigger ansible playbook build
+  config.vm.provision "ansible" do |ansible|
+    # Run playbook
+    ansible.playbook = "test.yml"
+    ansible.verbose = true
+  end
+end

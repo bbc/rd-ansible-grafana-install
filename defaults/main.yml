@@ -1,0 +1,15 @@
+---
+# name: rd-ansible-grafana-install/defaults
+# description: ALL our default variables for rd-ansible-grafana-install go in here
+#------------------------------------------------------------------------------
+# Packages - All our required packages we need installing
+#------------------------------------------------------------------------------
+
+packages:                          # Packages required required
+  - grafana
+
+# Influxdb data
+influx_db_user: username
+influx_db_password: password
+influx_db_endpoints:
+  - 'http://127.0.0.1:8086'
