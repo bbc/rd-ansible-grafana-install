@@ -25,6 +25,12 @@
     state: present
   with_items: "{{ packages }}"
 
+- name: Allow Grafana to run on port 80
+  capabilities:
+    path: /usr/sbin/grafana-server
+    capability: cap_net_bind_service+ep
+    state: present
+
 - name: Make sure service is running and starts on boot
   service:
     name: "grafana-server"

@@ -8,6 +8,9 @@
 packages:                          # Packages required required
   - grafana
 
+# Grafana config
+grafana_port: 80
+
 # Influxdb data
 influx_db_user: username
 influx_db_password: password
