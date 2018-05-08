@@ -1,0 +1,12 @@
+// This will call the shared-library plugin
+// Driven by this: https://git.mist.rd.bbc.co.uk/ansible-master-repos/ansible-mist-pipelines
+@Library("vagrant_ansible") _
+
+vagrant_ansible {
+    // agent_type = 'baremetal' or 'container'
+    agent_type = 'container'
+    // provider = 'docker' or 'virtualbox'
+    provider = 'docker'
+    // distros = [ 'xenial', 'bionic', 'centos7' ]
+    distros = [ 'xenial', 'bionic' ]
+}

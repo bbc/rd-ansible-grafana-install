@@ -1,21 +1,18 @@
-# Test our Ansible role
+# Small shim to pull down a remote vagrantfile
+require 'open-uri'
+require 'openssl'
+# ignore warnings for below ssl disable
+$VERBOSE = nil
 
-# Get current role name, and append branch name and build number if set
-current_role = File.basename(File.expand_path("..", Dir.pwd))
-if ENV['BRANCH_NAME'] && ENV['BUILD_NUMBER']
-  current_role << "-#{ENV['BRANCH_NAME']}-#{ENV['BUILD_NUMBER']}"
-end
+# Disable SSL checks
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-Vagrant.configure("2") do |config|
-  # Ubuntu Xenial 16.04
-  config.vm.box = "ubuntu/xenial64"
-  config.vm.define current_role
-  # CentOS 7
-  #config.vm.box = "centos/7"
-  # Trigger ansible playbook build
-  config.vm.provision "ansible" do |ansible|
-    # Run playbook
-    ansible.playbook = "test.yml"
-    ansible.verbose = true
-  end
-end
+# Define remote
+remote_vagrantfile = "https://git.mist.rd.bbc.co.uk/ansible-master-repos/ansible-mist-vagrantfile/raw/master/vagrantfile_ansible_roles"
+downloaded_vagrantfile = '.vagrant/downloaded.vagrantfile'
+
+# Download file and then load in
+download = open(remote_vagrantfile)
+IO.copy_stream(download, downloaded_vagrantfile)
+
+eval File.read(downloaded_vagrantfile)

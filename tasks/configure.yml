@@ -12,7 +12,7 @@
 - name: Flush handlers so we can load up new config if required
   meta: flush_handlers
 
-- name: Add datasource
+- name: Add datasource *edit* this needs removing since we may have different data source *edit*
   uri:
     url: "http://127.0.0.1:{{ grafana_port }}/api/datasources"
     method: POST
@@ -23,5 +23,6 @@
     body_format: json
     status_code: [ 200, 409 ]
   register: datasource_output
+  failed_when: false
 
 - debug: var=datasource_output
