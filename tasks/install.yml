@@ -2,6 +2,14 @@
 # module: rd-ansible-grafana-install/tasks/install
 # description: Install our required packages for rd-ansible-grafana-install
 
+- name: Install gpg and libcap for apt key and port 80 usage
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gnupg
+    - libcap2-bin
+
 - name: Add grafana gpg key
   apt_key:
     url: https://packagecloud.io/gpg.key
